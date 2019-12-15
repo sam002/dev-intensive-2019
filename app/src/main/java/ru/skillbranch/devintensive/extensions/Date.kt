@@ -36,9 +36,9 @@ enum class TimeUnits{
     DAY;
 
     fun plural(value:Int) : String {
-        return when (this) {
-            SECOND -> pluralize(value, "секунда", "секунды", "секунд")
-            MINUTE -> pluralize(value, "минута", "минуты", "минут")
+        return "${abs(value)} " + when (this) {
+            SECOND -> pluralize(value, "секунду", "секунды", "секунд")
+            MINUTE -> pluralize(value, "минуту", "минуты", "минут")
             HOUR -> pluralize(value, "час", "часа", "часов")
             DAY -> pluralize(value, "день", "дня", "дней")
         }
@@ -60,21 +60,21 @@ fun Date.humanizeDiff(date:Date = Date()) : String {
     val diffMs = date.time - this.time
     return when (diffMs) {
         in -Long.MAX_VALUE..-360*DAY-> "более чем через год"
-        in -360*DAY..-26*HOUR-> "через ${abs(diffMs/DAY).toInt()} ${TimeUnits.DAY.plural((diffMs/DAY).toInt())}"
+        in -360*DAY..-26*HOUR-> "через ${TimeUnits.DAY.plural((diffMs/DAY).toInt())}"
         in -26*HOUR..-22*HOUR-> "через день"
-        in -22*HOUR..-75*MINUTE-> "через ${abs(diffMs/HOUR).toInt()} ${TimeUnits.HOUR.plural((diffMs/HOUR).toInt())}"
+        in -22*HOUR..-75*MINUTE-> "через ${TimeUnits.HOUR.plural((diffMs/HOUR).toInt())}"
         in -75*MINUTE..-45*MINUTE-> "через час"
-        in -45*MINUTE..-75*SECOND-> "через ${abs(diffMs/MINUTE).toInt()} ${TimeUnits.MINUTE.plural((diffMs/MINUTE).toInt())}"
+        in -45*MINUTE..-75*SECOND-> "через ${TimeUnits.MINUTE.plural((diffMs/MINUTE).toInt())}"
         in -75*SECOND..-45*SECOND-> "через минуту"
         in -45*SECOND..-1*SECOND-> "через несколько секунд"
         in -1*SECOND..1*SECOND-> "только что"
         in 1*SECOND..45*SECOND-> "несколько секунд назад"
         in 45*SECOND..75*SECOND-> "минуту назад"
-        in 75*SECOND..45*MINUTE-> "${(diffMs/MINUTE).toInt()} ${TimeUnits.MINUTE.plural((diffMs/MINUTE).toInt())} назад"
+        in 75*SECOND..45*MINUTE-> "${TimeUnits.MINUTE.plural((diffMs/MINUTE).toInt())} назад"
         in 45*MINUTE..75*MINUTE-> "час назад"
-        in 75*MINUTE..22*HOUR-> "${(diffMs/HOUR).toInt()} ${TimeUnits.HOUR.plural((diffMs/HOUR).toInt())} назад"
+        in 75*MINUTE..22*HOUR-> "${TimeUnits.HOUR.plural((diffMs/HOUR).toInt())} назад"
         in 22*HOUR..26*HOUR-> "день назад"
-        in 26*HOUR..360*DAY-> "${(diffMs/DAY).toInt()} ${TimeUnits.DAY.plural((diffMs/DAY).toInt())} назад"
+        in 26*HOUR..360*DAY-> "${TimeUnits.DAY.plural((diffMs/DAY).toInt())} назад"
         in 360*DAY..Long.MAX_VALUE-> "более года назад"
         else -> throw UnknownError("Unexpected time")
     }
