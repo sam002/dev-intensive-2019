@@ -33,18 +33,18 @@ enum class TimeUnits{
     SECOND,
     MINUTE,
     HOUR,
-    DAY,
-}
+    DAY;
 
-fun <T:TimeUnits> T.plural(value:Int) : String {
-    return when (this) {
-        TimeUnits.SECOND -> pluralize(value, "секунда", "секунды", "секунд")
-        TimeUnits.MINUTE -> pluralize(value, "минута", "минуты", "минут")
-        TimeUnits.HOUR -> pluralize(value, "час", "часа", "часов")
-        TimeUnits.DAY -> pluralize(value, "день", "дня", "дней")
-        else -> throw UnknownError("Unexpected class call")
+    fun plural(value:Int) : String {
+        return when (this) {
+            SECOND -> pluralize(value, "секунда", "секунды", "секунд")
+            MINUTE -> pluralize(value, "минута", "минуты", "минут")
+            HOUR -> pluralize(value, "час", "часа", "часов")
+            DAY -> pluralize(value, "день", "дня", "дней")
+        }
     }
 }
+
 
 fun pluralize(number:Int, form1:String, form2: String, form5: String) : String {
     val number = abs(number)
