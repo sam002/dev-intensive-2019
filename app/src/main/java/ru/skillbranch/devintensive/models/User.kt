@@ -1,6 +1,5 @@
 package ru.skillbranch.devintensive.models
 
-import android.media.Rating
 import ru.skillbranch.devintensive.utils.Utils
 import java.util.*
 

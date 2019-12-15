@@ -1,7 +1,5 @@
 package ru.skillbranch.devintensive.extensions
 
-import android.annotation.SuppressLint
-
 val transliterationMap = mapOf(
     'а' to "a",
     'б' to "b",
@@ -38,7 +36,6 @@ val transliterationMap = mapOf(
     'я' to "ya"
 )
 
-@SuppressLint("DefaultLocale")
 fun String.translitirate(): String {
     var resultString = ""
     for (sourceChar in this.toCharArray()) {
