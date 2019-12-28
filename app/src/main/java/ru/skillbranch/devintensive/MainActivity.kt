@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -47,14 +46,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         messageEt.text = answer
 
         sendBtn.setOnClickListener(this)
-        messageEt.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+        messageEt.setOnEditorActionListener { v, actionId, _ ->
             if(actionId == EditorInfo.IME_ACTION_DONE){
                 processAnswer()
                 true
             } else {
                 false
             }
-        })
+        }
     }
 
     override fun onRestart() {
@@ -91,18 +90,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun processAnswer()
     {
         val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString())
-        messageEt.setText("")
         val (r,g,b) = color
         benderImage.setColorFilter(Color.rgb(r,g,b), PorterDuff.Mode.MULTIPLY)
         textTxt.text = phrase
         hideKeyboard()
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState?.putString("STATUS", benderObj.status.name)
-        outState?.putString("QUESTION", benderObj.question.name)
-        outState?.putString("ANSWER", messageEt.text.toString())
+        outState.putString("STATUS", benderObj.status.name)
+        outState.putString("QUESTION", benderObj.question.name)
+        outState.putString("ANSWER", messageEt.text.toString())
         Log.d("S_MainActivity", "onSaveInstanceState${benderObj.status.name}, ${benderObj.question.name}")
     }
 }

@@ -13,7 +13,7 @@ class Bender(var status:Status = Status.NORMAL, var question: Question = Questio
         Question.IDLE -> Question.IDLE.question
     }
 
-    fun listenAnswer(answer:String) : Pair<String, Triple<Int, Int, Int>> {
+    fun listenAnswer(answer:String = "") : Pair<String, Triple<Int, Int, Int>> {
         val validate = question.validate(answer)
         if (null !== validate) {
             return "${validate}\n${question.question}" to status.color
@@ -26,6 +26,7 @@ class Bender(var status:Status = Status.NORMAL, var question: Question = Questio
                 "Отлично - ты справился\n${question.question}" to status.color
         } else if (status == Status.CRITICAL) {
             question= question.nextQuestion()
+            status = Status.NORMAL
             "Это неправильный ответ. Давай все по новой\n${question.question}" to status.color
         } else {
             status = status.nextStatus()
@@ -52,7 +53,7 @@ class Bender(var status:Status = Status.NORMAL, var question: Question = Questio
         NAME("Как меня зовут?", listOf("Бендер", "Bender")) {
             override fun nextQuestion(): Question = PROFESSION
             override fun validate(answer: String): String? {
-                if (!answer[0].isUpperCase()) {
+                if (true != answer.getOrNull(0)?.isUpperCase()) {
                     return "Имя должно начинаться с заглавной буквы"
                 }
                 return null
@@ -61,7 +62,7 @@ class Bender(var status:Status = Status.NORMAL, var question: Question = Questio
         PROFESSION("Назови мою профессию?", listOf("сгибальщик", "bender")) {
             override fun nextQuestion(): Question = MATERIAL
             override fun validate(answer: String): String? {
-                if (!answer[0].isLowerCase()) {
+                if (true != answer.getOrNull(0)?.isLowerCase()) {
                     return "Профессия должна начинаться со строчной буквы"
                 }
                 return null
