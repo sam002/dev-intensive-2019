@@ -3,6 +3,7 @@ package ru.skillbranch.devintensive.extensions
 import android.app.Activity
 import android.content.res.Resources
 import android.graphics.Rect
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -22,8 +23,9 @@ fun Activity.isKeyboardOpen(): Boolean {
     rootView.getWindowVisibleDisplayFrame(rect)
 
     val heightDiff = rootView.rootView.height - (rect.bottom - rect.top)
-    val maxDiff = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30.0F, Resources.getSystem().displayMetrics)
-    return heightDiff < maxDiff
+    val maxDiff = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50.0F, Resources.getSystem().displayMetrics)
+    Log.d("S_Activity", "$heightDiff > $maxDiff, ${heightDiff > maxDiff}")
+    return heightDiff > maxDiff
 }
 
 fun Activity.isKeyboardClosed(): Boolean {
