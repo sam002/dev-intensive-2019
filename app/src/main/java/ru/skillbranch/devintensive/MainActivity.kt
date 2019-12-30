@@ -47,9 +47,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         messageEt.text = answer
 
         sendBtn.setOnClickListener(this)
-        messageEt.setOnEditorActionListener { v, actionId, _ ->
+        messageEt.setOnEditorActionListener { _, actionId, _ ->
             if(actionId == EditorInfo.IME_ACTION_DONE){
                 processAnswer()
+                hideKeyboard()
                 true
             } else {
                 false
@@ -96,7 +97,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         textTxt.text = phrase
         messageEt.text = ""
 //        if (isKeyboardOpen()) {
-            hideKeyboard()
+//            hideKeyboard()
 //        }
     }
 

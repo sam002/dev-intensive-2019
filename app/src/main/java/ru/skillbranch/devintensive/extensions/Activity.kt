@@ -24,7 +24,6 @@ fun Activity.isKeyboardOpen(): Boolean {
 
     val heightDiff = rootView.rootView.height - (rect.bottom - rect.top)
     val maxDiff = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50.0F, Resources.getSystem().displayMetrics)
-    Log.d("S_Activity", "$heightDiff > $maxDiff, ${heightDiff > maxDiff}")
     return heightDiff > maxDiff
 }
 
