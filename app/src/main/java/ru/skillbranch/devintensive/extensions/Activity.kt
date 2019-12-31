@@ -18,12 +18,13 @@ fun Activity.hideKeyboard() {
 }
 
 fun Activity.isKeyboardOpen(): Boolean {
-    val rootView:View = this.findViewById(R.id.activityRoot)
+    val rootView:View = this.findViewById(android.R.id.content)
     val rect = Rect()
     rootView.getWindowVisibleDisplayFrame(rect)
 
-    val heightDiff = rootView.rootView.height - (rect.bottom - rect.top)
-    val maxDiff = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50.0F, Resources.getSystem().displayMetrics)
+    val heightDiff = rootView.height - rect.height()
+    val maxDiff = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50.0F, this.resources.displayMetrics)
+//    Log.d("S_Activity", "$heightDiff > $maxDiff, ${heightDiff > maxDiff}")
     return heightDiff > maxDiff
 }
 

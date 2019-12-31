@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         messageEt.setOnEditorActionListener { _, actionId, _ ->
             if(actionId == EditorInfo.IME_ACTION_DONE){
                 processAnswer()
-                hideKeyboard()
+//                hideKeyboard()
                 true
             } else {
                 false
@@ -96,9 +96,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         benderImage.setColorFilter(Color.rgb(r,g,b), PorterDuff.Mode.MULTIPLY)
         textTxt.text = phrase
         messageEt.text = ""
-//        if (isKeyboardOpen()) {
-//            hideKeyboard()
-//        }
+        if (isKeyboardOpen()) {
+            hideKeyboard()
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
