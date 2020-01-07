@@ -23,6 +23,7 @@ import ru.skillbranch.devintensive.extensions.isKeyboardOpen
 import ru.skillbranch.devintensive.models.Bender
 import ru.skillbranch.devintensive.models.Profile
 import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
+import kotlin.collections.contains as contains1
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -35,11 +36,11 @@ class ProfileActivity : AppCompatActivity() {
     lateinit var viewFields : Map<String, TextView>
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
         initViews(savedInstanceState)
         initViewModel()
-
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -89,6 +90,28 @@ class ProfileActivity : AppCompatActivity() {
         btn_switch_theme.setOnClickListener {
             viewModel.switchTheme()
         }
+
+        et_repository.setOnEditorActionListener { v, actionId, event ->
+            validateRepository()
+        }
+    }
+
+    private fun validateRepository(): Boolean {
+        wr_repository.error = null
+        if (et_repository.text.isNullOrEmpty()) {
+            return true
+        }
+
+        val regexRepository = Regex("^(https?://)?(w{3}\\.)?github\\.com/(?<repoName>\\w+)$")
+        val repositoryName = regexRepository.find(et_repository.text)?.groups?.get(3)?.value.toString()
+
+        val excludePaths = listOf("enterprise","features","topics","collections","trending","events","marketplace","pricing","nonprofit","customer-stories","security","login","join")
+        if (!excludePaths.contains(repositoryName)) {
+            return true
+        }
+
+        wr_repository.error = "Невалидный адрес репозитория"
+        return false
     }
 
     private fun showCurrentMode(isEdit: Boolean) {
@@ -127,6 +150,10 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun saveProfileInfo() {
+        if (wr_repository.isErrorEnabled) {
+            et_repository.text = null
+            wr_repository.error = null
+        }
         Profile (
             firstName = et_first_name.text.toString(),
             lastName = et_last_name.text.toString(),

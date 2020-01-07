@@ -9,7 +9,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ru.skillbranch.devintensive.ui.custom.AspectRateImageView
+        <ru.skillbranch.devintensive.ui.custom.AspectRatioImageView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:src="@drawable/profile_bg"
@@ -31,12 +31,14 @@
                 android:layout_toLeftOf="@+id/iv_avatar"
                 android:layout_marginRight="@dimen/spacing_huge_32"
                 android:layout_marginTop="36dp"/>
-            <ImageView
+            <ru.skillbranch.devintensive.ui.custom.CircleImageView
                 android:id="@+id/iv_avatar"
                 android:layout_width="@dimen/avatar_round_size"
                 android:layout_height="@dimen/avatar_round_size"
                 android:src="@drawable/avatar_default"
-                android:layout_centerHorizontal="true"/>
+                android:layout_centerHorizontal="true"
+                app:cv_borderColor="?attr/colorPrimary"
+                app:cv_borderWidth="5dp"/>
             <ImageButton
                 android:id="@+id/btn_edit"
                 android:layout_width="@dimen/btn_round_size_40"
@@ -223,6 +225,7 @@
             android:layout_height="@dimen/btn_round_size_40"
             android:src="@drawable/ic_repo"/>
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/wr_repository"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/spacing_normal_16"
