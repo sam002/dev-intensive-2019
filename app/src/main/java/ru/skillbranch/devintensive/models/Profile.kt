@@ -1,5 +1,6 @@
 package ru.skillbranch.devintensive.models
 
+import ru.skillbranch.devintensive.ui.custom.AvatarTextDrawable
 import ru.skillbranch.devintensive.utils.Utils
 
 data class Profile(
@@ -14,6 +15,15 @@ data class Profile(
         get() {
             return Utils.transliteration("$firstName $lastName", "_")
         }
+
+    fun getDefaultAvatar(charColor:Int, backgroundColor:Int) : AvatarTextDrawable? {
+        val initials = Utils.toInitials(firstName, lastName)
+        if(initials.isNullOrEmpty()) {
+            return null
+        }
+
+        return AvatarTextDrawable(initials, charColor, backgroundColor)
+    }
 
     val rank: String = "Android Developer"
 

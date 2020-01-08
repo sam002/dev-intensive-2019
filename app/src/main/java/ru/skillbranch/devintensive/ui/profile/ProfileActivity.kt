@@ -1,29 +1,19 @@
 package ru.skillbranch.devintensive.ui.profile
-
 import android.graphics.Color
 import android.graphics.ColorFilter
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_profile.*
 import ru.skillbranch.devintensive.R
-import ru.skillbranch.devintensive.extensions.hideKeyboard
-import ru.skillbranch.devintensive.extensions.isKeyboardOpen
-import ru.skillbranch.devintensive.models.Bender
 import ru.skillbranch.devintensive.models.Profile
 import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
-import kotlin.collections.contains as contains1
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -52,6 +42,8 @@ class ProfileActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
         viewModel.getProfileData().observe(this, Observer { updateUI(it) })
         viewModel.getTheme().observe(this, Observer { updateTheme(it) })
+//        viewModel.getTheme().observe(this, Observer { updateAvatar(it) })
+//        viewModel.getProfileData().observe(this, Observer { updateAvatar(it) })
     }
 
     private fun updateTheme(mode: Int) {
@@ -63,6 +55,14 @@ class ProfileActivity : AppCompatActivity() {
             for ((k,v) in viewFields) {
                 v.text = it[k].toString()
             }
+        }
+        updateAvatar(profile)
+    }
+
+    private fun updateAvatar(profile: Profile) {
+        val avatar = profile.getDefaultAvatar(R.attr.colorWhite, R.attr.colorAccent)
+        if (null !== avatar) {
+            iv_avatar.setImageDrawable(avatar)
         }
     }
 
@@ -91,7 +91,7 @@ class ProfileActivity : AppCompatActivity() {
             viewModel.switchTheme()
         }
 
-        et_repository.setOnEditorActionListener { v, actionId, event ->
+        et_repository.setOnEditorActionListener { _, _, _ ->
             validateRepository()
         }
     }
