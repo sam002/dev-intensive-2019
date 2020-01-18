@@ -42,10 +42,11 @@ class CircleImageView @JvmOverloads constructor(
         val x = width
         val y = height
         val radius: Int = min(width, height)/2
+        val drawable = drawable ?: return
         if (width == 0 || height == 0) {
             return
         }
-        val image: Bitmap = drawable?.toBitmap(width,height) ?: return
+        val image: Bitmap = drawable.toBitmap()
         val paint = Paint()
         val paintBorder = Paint()
         paintBorder.color = borderColor
