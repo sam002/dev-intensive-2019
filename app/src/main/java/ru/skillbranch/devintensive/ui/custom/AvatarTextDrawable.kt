@@ -27,13 +27,6 @@ class AvatarTextDrawable(
         fontPaint.textSize = maxTextSize
         fontPaint.typeface = Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL)
 
-//        Log.d("S_AvatarTextDrawable", "$width, $height, $radius")
-
-        // Draw a red circle in the center
-//        val redPaint: Paint = Paint().apply { setARGB(255, 255, 0, 0) }
-//        canvas.drawCircle((width / 2).toFloat(), (height / 2).toFloat(), size/2.toFloat(), redPaint)
-
-//        canvas.drawColor(-0x10000)
         canvas.drawColor(backgroundColor)
 
         val textBound = Rect()
