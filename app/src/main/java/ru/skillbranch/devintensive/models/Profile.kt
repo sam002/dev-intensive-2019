@@ -1,5 +1,6 @@
 package ru.skillbranch.devintensive.models
 
+import ru.skillbranch.devintensive.extensions.translitirate
 import ru.skillbranch.devintensive.ui.custom.AvatarTextDrawable
 import ru.skillbranch.devintensive.utils.Utils
 
@@ -17,7 +18,7 @@ data class Profile(
         }
 
     fun getDefaultAvatar(charColor:Int, backgroundColor:Int) : AvatarTextDrawable? {
-        val initials = Utils.toInitials(firstName, lastName)
+        val initials = Utils.toInitials(firstName, lastName)?.translitirate()
         if(initials.isNullOrEmpty()) {
             return null
         }

@@ -22,7 +22,7 @@ class AvatarTextDrawable(
         val height: Int = bounds.height()
         val size: Float = min(width, height).toFloat()
 
-        val maxTextSize = (0.9*size/sqrt(2.0)).toFloat()
+        val maxTextSize = (0.8*size/sqrt(2.0)).toFloat()
 
         fontPaint.textSize = maxTextSize
         fontPaint.typeface = Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL)

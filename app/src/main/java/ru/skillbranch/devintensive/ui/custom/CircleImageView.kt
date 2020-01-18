@@ -36,31 +36,12 @@ class CircleImageView @JvmOverloads constructor(
         }
     }
 
-//    override fun onDraw(canvas: Canvas?) {
-//        super.onDraw(canvas)
-//
-//        val x = width
-//        val y = height
-//        val radius: Int
-//        radius = min(width, height)
-//        paint.setStyle(Paint.Style.STROKE)
-////        canvas?.drawPaint(paint)
-//
-////        paint.blendMode = BlendMode.DST
-//        canvas?.drawCircle((x / 2).toFloat(), (y / 2).toFloat(), radius.toFloat(), paint)
-//        paint.color = borderColor
-//        paint.setStyle(Paint.Style.STROKE)
-////        paint.blendMode = BlendMode.DST
-//        canvas?.drawCircle((x / 2).toFloat(), (y / 2).toFloat(), borderWidth+radius.toFloat(), paint)
-//    }
-
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
         val x = width
         val y = height
         val radius: Int = min(width, height)/2
-        val drawable = drawable ?: return
         if (width == 0 || height == 0) {
             return
         }
