@@ -30,6 +30,7 @@ class CircleImageView @JvmOverloads constructor(
 
     private val paint = Paint()
     private val paintBorder = Paint()
+    private var image:Bitmap? = null
 
     init {
         if(attrs!=null) {
@@ -45,13 +46,17 @@ class CircleImageView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+        Log.d("S_CircleImageView", "onDraw")
         if (width <= 0 || height <= 0) {
             return
         }
-        val image: Bitmap = drawable.toBitmap(width, height)
+        val drawable = drawable ?: return
+        if (image == null) {
+            image = drawable.toBitmap(width, height)
+        }
         paint.shader = BitmapShader(
             Bitmap.createScaledBitmap(
-                image,
+                image!!,
                 width,
                 height,
                 true

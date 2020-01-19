@@ -18,19 +18,13 @@ data class Profile(
             return Utils.transliteration("$firstName $lastName", "_")
         }
 
-    private var initials:String? = null
-    private var avatar:AvatarTextDrawable? = null
-
     fun getDefaultAvatar(charColor:Int, backgroundColor:Int) : AvatarTextDrawable? {
-        val newInitials = Utils.toInitials(firstName, lastName)?.translitirate()
-        if(newInitials.isNullOrEmpty()) {
+        val initials = Utils.toInitials(firstName, lastName)?.translitirate()
+        if(initials.isNullOrEmpty()) {
             return null
         }
-        if (avatar == null || initials != newInitials) {
-            initials = newInitials
-            avatar = AvatarTextDrawable(initials!!, charColor, backgroundColor)
-        }
-        return avatar
+
+        return AvatarTextDrawable(initials, charColor, backgroundColor)
 
     }
 
