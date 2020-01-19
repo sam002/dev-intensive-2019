@@ -56,14 +56,15 @@ class ProfileActivity : AppCompatActivity() {
                 v.text = it[k].toString()
             }
         }
+        updateAvatar(profile)
     }
 
-//    private fun updateAvatar(profile: Profile) {
-//        val avatar = profile.getDefaultAvatar(R.attr.colorWhite, R.attr.colorAccent)
-//        if (null != avatar) {
-//            iv_avatar.setImageDrawable(avatar)
-//        }
-//    }
+    private fun updateAvatar(profile: Profile) {
+        val avatar = profile.getDefaultAvatar(R.attr.colorWhite, R.attr.colorAccent)
+        if (null != avatar) {
+            iv_avatar.setImageDrawable(avatar)
+        }
+    }
 
     private fun initViews(savedInstanceState: Bundle?) {
         viewFields = mapOf(

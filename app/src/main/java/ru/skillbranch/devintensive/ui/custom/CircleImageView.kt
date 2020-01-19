@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.annotation.Dimension
@@ -27,6 +28,9 @@ class CircleImageView @JvmOverloads constructor(
     private var borderColor = DEFAULT_BORDER_COLOR
     private var borderWidth = DEFAULT_BORDER_WIDTH
 
+    private val paint = Paint()
+    private val paintBorder = Paint()
+
     init {
         if(attrs!=null) {
             val a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView)
@@ -34,25 +38,18 @@ class CircleImageView @JvmOverloads constructor(
             borderWidth = a.getDimension(R.styleable.CircleImageView_cv_borderWidth, DEFAULT_BORDER_WIDTH)
             a.recycle()
         }
+
+        paintBorder.color = borderColor
+        setLayerType(View.LAYER_TYPE_HARDWARE, paintBorder)
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-
-        val x = width
-        val y = height
-        val radius: Int = min(width, height)/2
-        val drawable = drawable ?: return
-        if (width == 0 || height == 0) {
+        if (width <= 0 || height <= 0) {
             return
         }
-        val image: Bitmap = drawable.toBitmap()
-        val paint = Paint()
-        val paintBorder = Paint()
-        paintBorder.color = borderColor
-        setLayerType(LAYER_TYPE_SOFTWARE, paintBorder)
-
-        val shader = BitmapShader(
+        val image: Bitmap = drawable.toBitmap(width, height)
+        paint.shader = BitmapShader(
             Bitmap.createScaledBitmap(
                 image,
                 width,
@@ -61,7 +58,10 @@ class CircleImageView @JvmOverloads constructor(
             ), Shader.TileMode.CLAMP, Shader.TileMode.CLAMP
         )
 
-        paint.shader = shader
+        val x = width
+        val y = height
+        val radius: Int = min(width, height)/2
+
         canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.SRC)
         canvas.drawCircle((x / 2).toFloat(), (y / 2).toFloat(), radius.toFloat(), paintBorder)
         canvas.drawCircle((x / 2).toFloat(), (y / 2).toFloat(), radius.toFloat()-borderWidth, paint)
