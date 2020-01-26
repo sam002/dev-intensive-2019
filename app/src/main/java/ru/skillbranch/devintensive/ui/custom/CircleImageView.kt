@@ -1,9 +1,11 @@
 package ru.skillbranch.devintensive.ui.custom
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.*
 import android.util.AttributeSet
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.ColorRes
@@ -26,7 +28,7 @@ class CircleImageView @JvmOverloads constructor(
     }
 
     private var borderColor = DEFAULT_BORDER_COLOR
-    private var borderWidth = DEFAULT_BORDER_WIDTH
+    private var borderWidthPx:Float = dp2px(DEFAULT_BORDER_WIDTH)
 
     private val paint = Paint()
     private val paintBorder = Paint()
@@ -36,7 +38,7 @@ class CircleImageView @JvmOverloads constructor(
         if(attrs!=null) {
             val a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView)
             borderColor = a.getColor(R.styleable.CircleImageView_cv_borderColor, DEFAULT_BORDER_COLOR)
-            borderWidth = a.getDimension(R.styleable.CircleImageView_cv_borderWidth, DEFAULT_BORDER_WIDTH)
+            borderWidthPx = a.getDimension(R.styleable.CircleImageView_cv_borderWidth, DEFAULT_BORDER_WIDTH)
             a.recycle()
         }
 
@@ -69,15 +71,31 @@ class CircleImageView @JvmOverloads constructor(
 
         canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.SRC)
         canvas.drawCircle((x / 2).toFloat(), (y / 2).toFloat(), radius.toFloat(), paintBorder)
-        canvas.drawCircle((x / 2).toFloat(), (y / 2).toFloat(), radius.toFloat()-borderWidth, paint)
+        canvas.drawCircle((x / 2).toFloat(), (y / 2).toFloat(), radius.toFloat()-borderWidthPx, paint)
+    }
+
+    private fun dp2px(dp: Float): Float {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            dp,
+            Resources.getSystem().displayMetrics
+        )
+    }
+
+    private fun px2dp (px: Float): Float {
+        return px/TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            1.0F,
+            Resources.getSystem().displayMetrics
+        )
     }
 
     @Dimension
     fun getBorderWidth():Int{
-        return borderWidth.toInt()
+        return px2dp(borderWidthPx).toInt()
     }
     fun setBorderWidth(@Dimension dp:Int){
-        borderWidth = dp.toFloat()
+        borderWidthPx = dp2px(dp.toFloat())
     }
 
     @ColorRes
@@ -87,6 +105,7 @@ class CircleImageView @JvmOverloads constructor(
     fun setBorderColor(hex:String){
         borderColor = hex.toColorInt()
     }
+
     fun setBorderColor(@ColorRes colorId: Int){
         borderColor = colorId
     }
