@@ -103,7 +103,7 @@ class ProfileActivity : AppCompatActivity() {
             return true
         }
 
-        val regexRepository = Regex("^(https?://)?(w{3}\\.)?github\\.com/(?<repoName>\\w+)$")
+        val regexRepository = Regex("^(https?://)?(w{3}\\.)?github\\.com/(?<repoName>[\\w-]+)$")
         val repositoryName:String? = regexRepository.find(et_repository.text)?.groups?.get(3)?.value
 
 
@@ -155,7 +155,7 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun saveProfileInfo() {
-        if (!wr_repository.isErrorEnabled) {
+        if (null !== wr_repository.error) {
             et_repository.text = null
             wr_repository.error = null
         }
