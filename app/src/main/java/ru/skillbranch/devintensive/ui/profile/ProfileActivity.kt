@@ -5,6 +5,7 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
@@ -103,10 +104,14 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         val regexRepository = Regex("^(https?://)?(w{3}\\.)?github\\.com/(?<repoName>\\w+)$")
-        val repositoryName = regexRepository.find(et_repository.text)?.groups?.get(3)?.value.toString()
+        val repositoryName:String? = regexRepository.find(et_repository.text)?.groups?.get(3)?.value
+
 
         val excludePaths = listOf("enterprise","features","topics","collections","trending","events","marketplace","pricing","nonprofit","customer-stories","security","login","join")
-        if (!excludePaths.contains(repositoryName)) {
+
+        Log.d("S_ProfileActivity", "$repositoryName, ${repositoryName==null}/${repositoryName?.length}: ${repositoryName.isNullOrEmpty()} && ${!excludePaths.contains(repositoryName)}")
+
+        if (!repositoryName.isNullOrEmpty() && !excludePaths.contains(repositoryName)) {
             return true
         }
 
@@ -150,7 +155,7 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun saveProfileInfo() {
-        if (wr_repository.isErrorEnabled) {
+        if (!wr_repository.isErrorEnabled) {
             et_repository.text = null
             wr_repository.error = null
         }
