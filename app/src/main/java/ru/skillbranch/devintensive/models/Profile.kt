@@ -13,9 +13,13 @@ data class Profile(
     val rating: Int = 0,
     val respect: Int = 0
 ) {
-    val nickName: String
+    private val nickName: String
         get() {
-            return Utils.transliteration("$firstName $lastName", "_")
+            val nickNameOrigin = "$firstName $lastName".trim()
+            if (nickNameOrigin.isBlank()) {
+                return ""
+            }
+            return Utils.transliteration(nickNameOrigin, "_")
         }
 
     fun getDefaultAvatar(charColor:Int, backgroundColor:Int) : AvatarTextDrawable? {

@@ -5,6 +5,8 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.EditText
@@ -92,13 +94,23 @@ class ProfileActivity : AppCompatActivity() {
             viewModel.switchTheme()
         }
 
-        et_repository.setOnEditorActionListener { _, _, _ ->
-            validateRepository()
-        }
+        et_repository.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    validateRepository()
+                }
+            }
+        )
     }
 
     private fun validateRepository(): Boolean {
         wr_repository.error = null
+        wr_repository.isErrorEnabled = false
         if (et_repository.text.isNullOrEmpty()) {
             return true
         }
@@ -158,6 +170,7 @@ class ProfileActivity : AppCompatActivity() {
         if (null !== wr_repository.error) {
             et_repository.text = null
             wr_repository.error = null
+            wr_repository.isErrorEnabled = false
         }
         Profile (
             firstName = et_first_name.text.toString(),
