@@ -4,17 +4,16 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
 import android.util.AttributeSet
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.annotation.Dimension
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.toColorInt
 import ru.skillbranch.devintensive.R
 import kotlin.math.min
-
 
 class CircleImageView @JvmOverloads constructor(
     context: Context,
@@ -23,7 +22,6 @@ class CircleImageView @JvmOverloads constructor(
 ) : ImageView(context, attrs, defStyleAttr) {
     companion object{
         private const val DEFAULT_BORDER_COLOR = -1 //Color::WHITE
-//        private const val DEFAULT_BORDER_COLOR = -0x10000//Color::RED
         private const val DEFAULT_BORDER_WIDTH = 2.0F
     }
 
@@ -48,7 +46,6 @@ class CircleImageView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        Log.d("S_CircleImageView", "onDraw")
         if (width <= 0 || height <= 0) {
             return
         }
@@ -102,11 +99,13 @@ class CircleImageView @JvmOverloads constructor(
     fun getBorderColor():Int{
         return borderColor
     }
+
     fun setBorderColor(hex:String){
         borderColor = hex.toColorInt()
     }
 
     fun setBorderColor(@ColorRes colorId: Int){
-        borderColor = colorId
+        val color = ContextCompat.getColor(context, colorId)
+        borderColor = color
     }
 }
