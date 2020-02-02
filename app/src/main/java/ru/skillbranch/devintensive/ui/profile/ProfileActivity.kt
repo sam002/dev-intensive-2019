@@ -141,6 +141,7 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         wr_repository.error = "Невалидный адрес репозитория"
+        wr_repository.isErrorEnabled = true
         return false
     }
 
