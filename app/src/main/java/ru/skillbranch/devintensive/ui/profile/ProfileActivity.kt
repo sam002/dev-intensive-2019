@@ -115,7 +115,7 @@ class ProfileActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-//                wr_repository.error = null
+                wr_repository.error = null
                 wr_repository.isErrorEnabled = !validateRepository()
                 if (wr_repository.isErrorEnabled) {
                     wr_repository.error = "Невалидный адрес репозитория"
@@ -181,7 +181,7 @@ class ProfileActivity : AppCompatActivity() {
     private fun saveProfileInfo() {
         if (wr_repository.isErrorEnabled) {
             et_repository.setText("")
-//            wr_repository.error = null
+            wr_repository.error = null
             wr_repository.isErrorEnabled = false
         }
         Profile (
