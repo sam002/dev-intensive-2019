@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
 import android.util.AttributeSet
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import androidx.annotation.ColorRes
@@ -49,9 +50,8 @@ class CircleImageView @JvmOverloads constructor(
         if (width <= 0 || height <= 0) {
             return
         }
-        val drawable = drawable ?: return
         if (image == null) {
-            image = drawable.toBitmap(width, height)
+            image = drawable.toBitmap()
         }
         paint.shader = BitmapShader(
             Bitmap.createScaledBitmap(
