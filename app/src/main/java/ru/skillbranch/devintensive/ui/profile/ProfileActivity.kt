@@ -98,7 +98,14 @@ class ProfileActivity : AppCompatActivity() {
         showCurrentMode(isEditMode)
 
         btn_edit.setOnClickListener {
-            if (isEditMode) saveProfileInfo()
+            if (isEditMode) {
+                if (wr_repository.isErrorEnabled) {
+                    et_repository.text.clear()
+                    wr_repository.error = null
+                    wr_repository.isErrorEnabled = false
+                }
+                saveProfileInfo()
+            }
             isEditMode = !isEditMode
             showCurrentMode(isEditMode)
         }
@@ -179,11 +186,6 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun saveProfileInfo() {
-        if (wr_repository.isErrorEnabled) {
-            et_repository.setText("")
-            wr_repository.error = null
-            wr_repository.isErrorEnabled = false
-        }
         Profile (
             firstName = et_first_name.text.toString(),
             lastName = et_last_name.text.toString(),
