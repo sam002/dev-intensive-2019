@@ -1,22 +1,26 @@
 package ru.skillbranch.devintensive.ui.profile
-import android.graphics.Color
+
 import android.graphics.ColorFilter
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_profile.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.Profile
 import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
+
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -45,8 +49,6 @@ class ProfileActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
         viewModel.getProfileData().observe(this, Observer { updateUI(it) })
         viewModel.getTheme().observe(this, Observer { updateTheme(it) })
-//        viewModel.getTheme().observe(this, Observer { updateAvatar(it) })
-//        viewModel.getProfileData().observe(this, Observer { updateAvatar(it) })
     }
 
     private fun updateTheme(mode: Int) {
@@ -62,8 +64,19 @@ class ProfileActivity : AppCompatActivity() {
         updateAvatar(profile)
     }
 
+    @ColorInt
+    fun getColorByAttributeId(@AttrRes attrIdForColor: Int): Int {
+        val typedValue = TypedValue()
+        theme.resolveAttribute(attrIdForColor, typedValue, true)
+        return typedValue.data
+    }
+
     private fun updateAvatar(profile: Profile) {
-        val avatar = profile.getDefaultAvatar(R.attr.colorWhite, R.attr.colorAccent)
+
+        val colorAccent = getColorByAttributeId(R.attr.colorAccent)
+        val colorFont = getColorByAttributeId(R.attr.colorWhite)
+
+        val avatar = profile.getDefaultAvatar(colorFont, colorAccent)
         if (null != avatar) {
             iv_avatar.setImageDrawable(avatar)
         }
@@ -148,7 +161,7 @@ class ProfileActivity : AppCompatActivity() {
         with(btn_edit) {
             val filter: ColorFilter? = if(isEdit) {
                 PorterDuffColorFilter(
-                    resources.getColor(R.color.color_accent, theme),
+                    getColorByAttributeId(R.attr.colorAccent),
                     PorterDuff.Mode.SRC_IN
                 )
             } else {
