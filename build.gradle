@@ -29,7 +29,7 @@ detekt {
         }
         html {
             enabled = true
-            destination = file("app/build/destination.html")
+            destination = file("app/build/reports/detekt/destination.html")
         }
         txt {
             enabled = false
