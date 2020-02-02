@@ -62,7 +62,7 @@ instrumentationTests:
   before_script:
     - echo y | android-sdk-linux/tools/bin/sdkmanager --install "system-images;android-${ANDROID_COMPILE_SDK};google_apis;x86" >/dev/null
     - echo no | android-sdk-linux/tools/bin/avdmanager -v create avd --force --name test --abi google_apis/x86 --package "system-images;android-${ANDROID_COMPILE_SDK};google_apis;x86"
-    - export SHELL=/bin/bash && echo "no" | emulator -avd test -no-audio -no-window -gpu off -verbose -qemu &
+    - export SHELL=/bin/bash && echo "no" | android-sdk-linux/emulator/emulator -avd test -no-audio -no-window -gpu off -verbose -qemu &
     - android-sdk-linux/platform-tools/adb wait-for-device
 #    - android-wait-for-emulator
     - sleep 60
