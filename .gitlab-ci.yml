@@ -42,31 +42,43 @@ assembleDebug:
   artifacts:
     paths:
     - app/build/outputs/
-#    expire_in: 1 week
+    expire_in: 10 week
 
-debugTests:
+debugUnitTests:
   stage: test
   script:
     - ./gradlew -Pci --console=plain :app:testDebug
 
-#instrumentationTests:
-#  stage: test
+instrumentationTests:
+  stage: test
 #  tags:
 #    - android # tag with which our runner is started
-#  before_script:
-#    - ''
-#  image: shepeliev/android-sdk
-#  script:
-#    - /opt/start-default-emulator.sh
-#    # Turn off animation
-#    - adb shell settings put global window_animation_scale 0
-#    - adb shell settings put global transition_animation_scale 0
-#    - adb shell settings put global animator_duration_scale 0
-#    # Turn off google auto-fill
-#    - adb shell settings put secure autofill_service null
-#    - ./gradlew cAT
+  before_script:
+    - echo no | avdmanager -v create avd --force --name test --abi google_apis/x86_64 --package "system-images;android-29;google_apis;x86_64"
+    - export SHELL=/bin/bash && echo "no" | emulator -avd test -no-audio -no-window -gpu off -verbose -qemu &
+    - adb wait-for-device
+#    - android-wait-for-emulator
+#    - export TERM=${TERM:-dumb}
+#    - export ADB_INSTALL_TIMEOUT=4 # minutes (2 minutes by default)
+  image: shepeliev/android-sdk
+  script:
+    - /opt/start-default-emulator.sh
+    # Turn off animation
+    - adb shell settings put global window_animation_scale 0
+    - adb shell settings put global transition_animation_scale 0
+    - adb shell settings put global animator_duration_scale 0
+    # Turn off google auto-fill
+    - adb shell settings put secure autofill_service null
+    - ./gradlew cAT
+#    - ./gradlew createDebugCoverageReport
+#    - cat "app/build/reports/coverage/debug/index.html"
 #  only:
 #    - /^master$/
+  artifacts:
+    name: "tests-instrumentation-${CI_BUILD_NAME}"
+    expire_in: 1 week
+    paths:
+      - app/build/reports/
 
 after_script:
   - echo "End CI"
