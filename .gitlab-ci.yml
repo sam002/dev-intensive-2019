@@ -60,10 +60,10 @@ instrumentationTests:
 #  tags:
 #    - android # tag with which our runner is started
   before_script:
-    - echo y | android-sdk-linux/tools/bin/sdkmanager --install "system-images;android-${ANDROID_COMPILE_SDK};google_apis;x86" #>/dev/null
+    - echo y | android-sdk-linux/tools/bin/sdkmanager --install "system-images;android-${ANDROID_COMPILE_SDK};google_apis;x86" >/dev/null
     - echo no | android-sdk-linux/tools/bin/avdmanager -v create avd --force --name test --abi google_apis/x86 --package "system-images;android-${ANDROID_COMPILE_SDK};google_apis;x86"
     - export SHELL=/bin/bash && echo "no" | emulator -avd test -no-audio -no-window -gpu off -verbose -qemu &
-    - adb wait-for-device
+    - android-sdk-linux/platform-tools/adb wait-for-device
 #    - android-wait-for-emulator
     - sleep 60
 #    - export TERM=${TERM:-dumb}
@@ -72,11 +72,11 @@ instrumentationTests:
   script:
 #    - /opt/start-default-emulator.sh
     # Turn off animation
-    - adb shell settings put global window_animation_scale 0
-    - adb shell settings put global transition_animation_scale 0
-    - adb shell settings put global animator_duration_scale 0
+    - android-sdk-linux/platform-tools/adb shell settings put global window_animation_scale 0
+    - android-sdk-linux/platform-tools/adb shell settings put global transition_animation_scale 0
+    - android-sdk-linux/platform-tools/adb shell settings put global animator_duration_scale 0
     # Turn off google auto-fill
-    - adb shell settings put secure autofill_service null
+    - android-sdk-linux/platform-tools/adb shell settings put secure autofill_service null
 #    - adb shell input keyevent 82
     - ./gradlew cAT
 #    - ./gradlew createDebugCoverageReport
