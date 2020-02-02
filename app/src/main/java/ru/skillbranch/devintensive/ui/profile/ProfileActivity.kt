@@ -98,7 +98,14 @@ class ProfileActivity : AppCompatActivity() {
         showCurrentMode(isEditMode)
 
         btn_edit.setOnClickListener {
-            if (isEditMode) saveProfileInfo()
+            if (isEditMode) {
+                if (wr_repository.isErrorEnabled) {
+                    et_repository.text.clear()
+                    wr_repository.error = null
+                    wr_repository.isErrorEnabled = false
+                }
+                saveProfileInfo()
+            }
             isEditMode = !isEditMode
             showCurrentMode(isEditMode)
         }
@@ -115,22 +122,22 @@ class ProfileActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    validateRepository()
+                wr_repository.error = null
+                wr_repository.isErrorEnabled = !validateRepository()
+                if (wr_repository.isErrorEnabled) {
+                    wr_repository.error = "Невалидный адрес репозитория"
                 }
             }
-        )
+        })
     }
 
     private fun validateRepository(): Boolean {
-        wr_repository.error = null
-        wr_repository.isErrorEnabled = false
         if (et_repository.text.isNullOrEmpty()) {
             return true
         }
 
         val regexRepository = Regex("^(https?://)?(w{3}\\.)?github\\.com/(?<repoName>[a-zA-Z0-9]+-?[a-zA-Z0-9]+)/?$")
         val repositoryName:String? = regexRepository.find(et_repository.text)?.groups?.get(3)?.value
-
 
         val excludePaths = listOf("enterprise","features","topics","collections","trending","events","marketplace","pricing","nonprofit","customer-stories","security","login","join")
 
@@ -140,7 +147,6 @@ class ProfileActivity : AppCompatActivity() {
             return true
         }
 
-        wr_repository.error = "Невалидный адрес репозитория"
         return false
     }
 
@@ -180,11 +186,6 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun saveProfileInfo() {
-        if (null !== wr_repository.error) {
-            et_repository.text = null
-            wr_repository.error = null
-            wr_repository.isErrorEnabled = false
-        }
         Profile (
             firstName = et_first_name.text.toString(),
             lastName = et_last_name.text.toString(),
