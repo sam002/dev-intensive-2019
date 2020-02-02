@@ -15,6 +15,28 @@ buildscript {
     }
 }
 
+plugins {
+    id("io.gitlab.arturbosch.detekt").version("1.5.0")
+}
+
+detekt {
+    toolVersion = "[1.5.0]"
+    input = files("app/src/main/java")
+    config = files("detekt.yml")
+    reports {
+        xml {
+            enabled = false
+        }
+        html {
+            enabled = true
+            destination = file("app/build/destination.html")
+        }
+        txt {
+            enabled = false
+        }
+    }
+}
+
 allprojects {
     repositories {
         google()

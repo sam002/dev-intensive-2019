@@ -46,14 +46,25 @@ assembleDebug:
   script:
     - ./gradlew assembleDebug
   artifacts:
+    name: "build-${CI_BUILD_NAME}"
+    expire_in: 10 week
     paths:
     - app/build/outputs/
-    expire_in: 10 week
 
 debugUnitTests:
   stage: test
   script:
     - ./gradlew -Pci --console=plain :app:testDebug
+
+detektDebug:
+  stage: test
+  script:
+    - ./gradlew detekt
+  artifacts:
+    name: "detekt-report-${CI_BUILD_NAME}"
+    expire_in: 40 week
+    paths:
+      - app/build/reports/detekt
 
 instrumentationTests:
   stage: test
