@@ -24,8 +24,7 @@ before_script:
 #  - rm -fr .gradle/caches/*/plugin-resolution/
   - apt-get --quiet update --yes
   - apt-get --quiet install --yes wget tar unzip lib32stdc++6 lib32z1
-  - wget --quiet --output-document=android-sdk.zip https://dl.google.com/android/repository/sdk-tools-linux-${ANDROID_SDK_TOOLS}.zip
-  - unzip -d android-sdk-linux android-sdk.zip
+  - test -d "android-sdk-linux" && echo "SDK Found" || (wget --quiet --output-document=android-sdk.zip https://dl.google.com/android/repository/sdk-tools-linux-${ANDROID_SDK_TOOLS}.zip && unzip -d -u android-sdk-linux android-sdk.zip)
   - echo y | android-sdk-linux/tools/bin/sdkmanager "platforms;android-${ANDROID_COMPILE_SDK}" >/dev/null
   - echo y | android-sdk-linux/tools/bin/sdkmanager "platform-tools" >/dev/null
   - echo y | android-sdk-linux/tools/bin/sdkmanager "build-tools;${ANDROID_BUILD_TOOLS}" >/dev/null
@@ -78,6 +77,7 @@ instrumentationTests:
     - adb shell settings put global animator_duration_scale 0
     # Turn off google auto-fill
     - adb shell settings put secure autofill_service null
+#    - adb shell input keyevent 82
     - ./gradlew cAT
 #    - ./gradlew createDebugCoverageReport
 #    - cat "app/build/reports/coverage/debug/index.html"
