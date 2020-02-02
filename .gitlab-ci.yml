@@ -61,15 +61,17 @@ instrumentationTests:
 #  tags:
 #    - android # tag with which our runner is started
   before_script:
-    - echo no | avdmanager -v create avd --force --name test --abi google_apis/x86_64 --package "system-images;android-28;google_apis;x86_64"
+    - echo y | android-sdk-linux/tools/bin/sdkmanager --install "system-images;android-${ANDROID_COMPILE_SDK};google_apis;x86" #>/dev/null
+    - echo no | android-sdk-linux/tools/bin/avdmanager -v create avd --force --name test --abi google_apis/x86 --package "system-images;android-${ANDROID_COMPILE_SDK};google_apis;x86"
     - export SHELL=/bin/bash && echo "no" | emulator -avd test -no-audio -no-window -gpu off -verbose -qemu &
     - adb wait-for-device
-    - android-wait-for-emulator
-    - export TERM=${TERM:-dumb}
-    - export ADB_INSTALL_TIMEOUT=4 # minutes (2 minutes by default)
-  image: shepeliev/android-sdk
+#    - android-wait-for-emulator
+    - sleep 60
+#    - export TERM=${TERM:-dumb}
+#    - export ADB_INSTALL_TIMEOUT=4 # minutes (2 minutes by default)
+#  image: shepeliev/android-sdk
   script:
-    - /opt/start-default-emulator.sh
+#    - /opt/start-default-emulator.sh
     # Turn off animation
     - adb shell settings put global window_animation_scale 0
     - adb shell settings put global transition_animation_scale 0
