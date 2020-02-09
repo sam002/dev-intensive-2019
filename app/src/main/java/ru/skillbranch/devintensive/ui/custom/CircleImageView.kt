@@ -14,6 +14,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.toColorInt
 import ru.skillbranch.devintensive.R
+import ru.skillbranch.devintensive.utils.Utils.dp2px
+import ru.skillbranch.devintensive.utils.Utils.px2dp
 import kotlin.math.min
 
 class CircleImageView @JvmOverloads constructor(
@@ -69,22 +71,6 @@ class CircleImageView @JvmOverloads constructor(
         canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.SRC)
         canvas.drawCircle((x / 2).toFloat(), (y / 2).toFloat(), radius.toFloat(), paintBorder)
         canvas.drawCircle((x / 2).toFloat(), (y / 2).toFloat(), radius.toFloat()-borderWidthPx, paint)
-    }
-
-    private fun dp2px(dp: Float): Float {
-        return TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            dp,
-            Resources.getSystem().displayMetrics
-        )
-    }
-
-    private fun px2dp (px: Float): Float {
-        return px/TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            1.0F,
-            Resources.getSystem().displayMetrics
-        )
     }
 
     @Dimension

@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_profile.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.Profile
+import ru.skillbranch.devintensive.utils.Utils
 import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
 
 
@@ -120,6 +121,7 @@ class ProfileActivity : AppCompatActivity() {
                 wr_repository.isErrorEnabled = !validateRepository()
                 if (wr_repository.isErrorEnabled) {
                     wr_repository.error = "Невалидный адрес репозитория"
+                    sv_editable.scrollTo(0, Utils.dp2px(32.0F).toInt())
                 }
             }
 

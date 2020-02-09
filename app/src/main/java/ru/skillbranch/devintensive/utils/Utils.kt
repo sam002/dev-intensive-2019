@@ -1,5 +1,7 @@
 package ru.skillbranch.devintensive.utils
 
+import android.content.res.Resources
+import android.util.TypedValue
 import ru.skillbranch.devintensive.extensions.translitirate
 
 object Utils {
@@ -23,5 +25,21 @@ object Utils {
         initals += lastName?.getOrNull(0)?.toUpperCase() ?: ""
 
         return (if(initals.isNullOrBlank()) null else initals)
+    }
+
+    fun dp2px(dp: Float): Float {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            dp,
+            Resources.getSystem().displayMetrics
+        )
+    }
+
+    fun px2dp (px: Float): Float {
+        return px/ TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            1.0F,
+            Resources.getSystem().displayMetrics
+        )
     }
 }

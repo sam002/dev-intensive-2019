@@ -5,6 +5,7 @@ import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.util.TypedValue
+import ru.skillbranch.devintensive.utils.Utils.dp2px
 import kotlin.math.min
 import kotlin.math.sqrt
 
@@ -34,22 +35,6 @@ class AvatarTextDrawable(
         val textBound = Rect()
         fontPaint.getTextBounds(text, 0, text.length, textBound)
         canvas.drawText(text,(width / 2).toFloat(), (height+textBound.height())/2.toFloat(), fontPaint)
-    }
-
-    private fun dp2px(dp: Float): Float {
-        return TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            dp,
-            Resources.getSystem().displayMetrics
-        )
-    }
-
-    private fun px2dp (px: Float): Float {
-        return px/ TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            1.0F,
-            Resources.getSystem().displayMetrics
-        )
     }
 
     override fun setAlpha(alpha: Int) {
