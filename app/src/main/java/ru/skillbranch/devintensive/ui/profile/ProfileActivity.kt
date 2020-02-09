@@ -116,17 +116,17 @@ class ProfileActivity : AppCompatActivity() {
 
         et_repository.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
+                wr_repository.error = null
+                wr_repository.isErrorEnabled = !validateRepository()
+                if (wr_repository.isErrorEnabled) {
+                    wr_repository.error = "Невалидный адрес репозитория"
+                }
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                wr_repository.error = null
-                wr_repository.isErrorEnabled = !validateRepository()
-                if (wr_repository.isErrorEnabled) {
-                    wr_repository.error = "Невалидный адрес репозитория"
-                }
             }
         })
     }
